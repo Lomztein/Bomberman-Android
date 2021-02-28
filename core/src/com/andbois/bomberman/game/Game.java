@@ -24,8 +24,8 @@ public class Game extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 
-		Touch touch = Input.getSingleTouch();
-		if (touch != null) {
+		Touch[] touches = Input.getTouches();
+		for (Touch touch : touches) {
 			int x = touch.getX();
 			int y = touch.getY();
 
