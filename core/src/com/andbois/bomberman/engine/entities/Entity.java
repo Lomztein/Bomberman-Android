@@ -31,12 +31,14 @@ public class Entity {
         if (component instanceof Renderer) {
             renderers.add((Renderer)component);
         }
+        component.setEntity(this);
         component.onInit();
     }
 
     public void removeComponent (Component component) {
         components.remove(component);
         renderers.remove(component);
+        component.setEntity(null);
         component.onEnd();
     }
 

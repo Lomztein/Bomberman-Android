@@ -8,7 +8,7 @@ public abstract class Renderer extends Component {
 
     @Override
     public void onInit() {
-
+        transform = entity.getComponent(Transform.class);
     }
 
     public abstract void render (SpriteBatch batch);
