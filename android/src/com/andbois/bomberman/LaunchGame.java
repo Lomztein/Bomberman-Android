@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.andbois.bomberman.Game;
+import com.andbois.bomberman.game.Game;
 
 public class LaunchGame extends AndroidApplication {
 	@Override

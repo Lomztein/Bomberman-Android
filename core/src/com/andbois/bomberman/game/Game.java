@@ -1,5 +1,7 @@
-package com.andbois.bomberman;
+package com.andbois.bomberman.game;
 
+import com.andbois.bomberman.engine.Input;
+import com.andbois.bomberman.engine.Touch;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -21,7 +23,15 @@ public class Game extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, 0, 0);
+
+		Touch touch = Input.getSingleTouch();
+		if (touch != null) {
+			int x = touch.getX();
+			int y = touch.getY();
+
+			batch.draw(img, x, y);
+		}
+
 		batch.end();
 	}
 	
