@@ -2,6 +2,7 @@ package com.andbois.bomberman.game;
 
 import com.andbois.bomberman.engine.Input;
 import com.andbois.bomberman.engine.Touch;
+import com.andbois.bomberman.engine.entities.Button;
 import com.andbois.bomberman.engine.entities.Entity;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -15,6 +16,8 @@ public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	ArrayList<Entity> entities;
+
+	Button button;
 	
 	@Override
 	public void create () {
@@ -26,6 +29,8 @@ public class Game extends ApplicationAdapter {
 
 	public void setup () {
 		// Set up game here.
+		button = new Button("the_button.png", 300, 300);
+		addEntity(new Entity(button));
 	}
 
 	public void addEntity (Entity entity) {

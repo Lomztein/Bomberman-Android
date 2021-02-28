@@ -12,6 +12,9 @@ public class Entity {
     private ArrayList<Renderer> renderers;
 
     public Entity (Component... components) {
+        this.components = new ArrayList<>();
+        this.renderers = new ArrayList<>();
+
         for (Component component : components) {
             addComponent(component);
         }
