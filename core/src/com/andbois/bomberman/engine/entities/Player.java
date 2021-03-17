@@ -11,12 +11,12 @@ public class Player extends Renderer {
 
     public Player(String textureName, int posX, int posY) {
         texture = new Texture(textureName);
-        rectangle = new Rectangle(posX, posY, texture.getWidth(), texture.getHeight());
+        rectangle = new Rectangle(posX - (texture.getWidth() / 2), posY - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight());
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, rectangle.getX() - (texture.getWidth() / 2), rectangle.getY() - (texture.getHeight() / 2));
+        batch.draw(texture, rectangle.getX(), rectangle.getY());
     }
 
     @Override
@@ -43,5 +43,13 @@ public class Player extends Renderer {
 
     public void setY(float y) {
         rectangle.setY(y);
+    }
+
+    public int getWidth() {
+        return texture.getWidth();
+    }
+
+    public int getHeight() {
+        return texture.getHeight();
     }
 }

@@ -70,6 +70,15 @@ public class Game extends ApplicationAdapter {
 		if(btnDown.getIsClicked()) {
 			player.setY(player.getY() - 10);
 		}
+
+		if(player.getX() < 0)
+			player.setX(0);
+		if(player.getY() < 0)
+			player.setY(0);
+		if(player.getX() > Gdx.graphics.getWidth() - player.getWidth())
+			player.setX(Gdx.graphics.getWidth() - player.getWidth());
+		if(player.getY() > Gdx.graphics.getHeight() - player.getHeight())
+			player.setY(Gdx.graphics.getHeight() - player.getHeight());
 	}
 
 	@Override
