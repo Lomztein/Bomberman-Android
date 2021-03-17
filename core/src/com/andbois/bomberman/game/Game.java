@@ -2,47 +2,52 @@ package com.andbois.bomberman.game;
 
 import com.andbois.bomberman.engine.Input;
 import com.andbois.bomberman.engine.Touch;
+import com.andbois.bomberman.engine.entities.Bomb;
 import com.andbois.bomberman.engine.entities.Button;
 import com.andbois.bomberman.engine.entities.Entity;
 import com.andbois.bomberman.engine.entities.Player;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 public class Game extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	ArrayList<Entity> entities;
+	private SpriteBatch batch;
+	private ArrayList<Entity> entities;
 
-	Player player;
-	Button btnLeft, btnRight, btnDown, btnUp;
+	private Player player;
+	private long lastBombSpawn = System.currentTimeMillis();
+
+	private Button btnLeft, btnRight, btnDown, btnUp, btnBomb;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
 		entities = new ArrayList<>();
 		setup();
 	}
 
 	public void setup () {
 		// Set up game here.
-		player = new Player("badlogic.jpg", 200, 800);
+		player = new Player("texture_player.png", 200, 800);
 		addEntity(new Entity(player));
 
 		btnLeft = new Button("button_left.png", 100, 300);
 		btnRight = new Button("button_right.png", 600, 300);
 		btnDown = new Button("button_down.png", 350, 100);
 		btnUp = new Button("button_up.png", 350, 500);
+		btnBomb = new Button("button_bomb.png", Gdx.graphics.getWidth() - 300, 300);
 
 		addEntity(new Entity(btnLeft));
 		addEntity(new Entity(btnRight));
 		addEntity(new Entity(btnDown));
 		addEntity(new Entity(btnUp));
+		addEntity(new Entity(btnBomb));
 	}
 
 	public void addEntity (Entity entity) {
@@ -58,6 +63,7 @@ public class Game extends ApplicationAdapter {
 			entity.tick(Gdx.graphics.getDeltaTime());
 		}
 
+		// --- Player movement --- //
 		if(btnLeft.getIsClicked()) {
 			player.setX(player.getX() - 10);
 		}
@@ -79,6 +85,26 @@ public class Game extends ApplicationAdapter {
 			player.setX(Gdx.graphics.getWidth() - player.getWidth());
 		if(player.getY() > Gdx.graphics.getHeight() - player.getHeight())
 			player.setY(Gdx.graphics.getHeight() - player.getHeight());
+
+		// --- Bomb logic --- ///
+		if(btnBomb.getIsClicked()) {
+			if(System.currentTimeMillis() - lastBombSpawn > 1000) {
+				Bomb bomb = new Bomb("texture_bomb.png", "texture_explosion.png", player.getCenterX(), player.getCenterY(), 3000);
+				addEntity(new Entity(bomb));
+
+				lastBombSpawn = System.currentTimeMillis();
+			}
+		}
+
+		ListIterator<Entity> it = entities.listIterator();
+		while(it.hasNext()) {
+			Bomb bomb = it.next().getComponent(Bomb.class);
+			if (bomb != null) {
+				if (bomb.getShouldDispose()) {
+					it.remove();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -99,6 +125,5 @@ public class Game extends ApplicationAdapter {
 	public void dispose () {
 		batch.end();
 		batch.dispose();
-		img.dispose();
 	}
 }

@@ -52,4 +52,12 @@ public class Player extends Renderer {
     public int getHeight() {
         return texture.getHeight();
     }
+
+    public int getCenterX() {
+        return (int)(rectangle.getX() + (texture.getWidth() / 2));
+    }
+
+    public int getCenterY() {
+        return (int)(rectangle.getY() + (texture.getHeight() / 2));
+    }
 }
