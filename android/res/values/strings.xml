@@ -8,6 +8,17 @@
     <string name="nav_main_menu">Main Menu</string>
     <string name="nav_highscores">Highscores</string>
     <string name="nav_credits">Credits</string>
-    <string name="app_credits">Game coded by Sander B. Knudsen and Marcus L. Jensen for the SDU course \'Android Programmering\'.\n\nUses the LibGDX game library. The following asset packs are used for sprites:\n\nUI: Iron Theme by Admurin\nShikashis Fantasy Icons Pack by Cheekyinkling\nDungeon Tileset II by 0x73.\n\nAll asset packs sourced from Itch.io</string>
+    <string name="app_credits">
+        Game coded by Sander B. Knudsen and Marcus L. Jensen for the SDU course \'Android Programmering\'.
+        \n\n
+        Uses the LibGDX game library.
+        \n\n
+        The following asset packs are used for sprites:
+        \n
+        \nUI: Free Lunar Battle Pack by MattWalkden
+        \nShikashis Fantasy Icons Pack by Cheekyinkling
+        \nDungeon Tileset II by 0x73.
+        \n\n
+        All asset packs sourced from Itch.io</string>
 
 </resources>
