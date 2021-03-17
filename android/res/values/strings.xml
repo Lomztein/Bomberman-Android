@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Android Bomberman</string>
+    <string name="app_name">CHEAP BOMBERMAN CLONE</string>
+    <string name="app_subtitle">Made by a couple of nerds for a university project</string>
+    <string name="menu_start_game">Start game</string>
+    <string name="menu_exit_game">Exit game :(</string>
+    <string name="nav_main_menu">Main Menu</string>
+    <string name="nav_highscores">Highscores</string>
+    <string name="nav_credits">Credits</string>
+    <string name="app_credits">Game coded by Sander B. Knudsen and Marcus L. Jensen for the SDU course \'Android Programmering\'.\n\nUses the LibGDX game library. The following asset packs are used for sprites:\n\nUI: Iron Theme by Admurin\nShikashis Fantasy Icons Pack by Cheekyinkling\nDungeon Tileset II by 0x73.\n\nAll asset packs sourced from Itch.io</string>
 
 </resources>
