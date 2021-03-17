@@ -12,9 +12,11 @@ public class Button extends Renderer {
     private Texture texture;
     private Rectangle rectangle;
 
+    private Boolean isClicked = false;
+
     public Button(String textureName, int posX, int posY) {
         texture = new Texture(textureName);
-        rectangle = new Rectangle(posX, posY, texture.getWidth(), texture.getHeight());
+        rectangle = new Rectangle(posX - (texture.getWidth() / 2), posY - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight());
     }
 
     @Override
@@ -24,18 +26,20 @@ public class Button extends Renderer {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, rectangle.getX() - (texture.getWidth() / 2), rectangle.getY() - (texture.getHeight() / 2));
+        batch.draw(texture, rectangle.getX(), rectangle.getY());
     }
 
     @Override
     public void onTick(float deltaTime) {
+        isClicked = false;
+
         Touch[] touches = Input.getTouches();
         for (Touch touch : touches) {
             int x = touch.getX();
             int y = Gdx.graphics.getHeight() - 1 - touch.getY();
 
             if(rectangle.contains(x, y)) {
-                System.out.println("clicked!");
+                isClicked = true;
             }
         }
     }
@@ -43,5 +47,9 @@ public class Button extends Renderer {
     @Override
     public void onEnd() {
 
+    }
+
+    public Boolean getIsClicked() {
+        return isClicked;
     }
 }
