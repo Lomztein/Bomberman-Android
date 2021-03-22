@@ -29,6 +29,7 @@ class HighscoreFragment(val highscoreViewModel: HighscoreViewModel) : Fragment()
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
+                highscoreViewModel.forceFetch()
                 adapter = HighscoreRecyclerAdapter(highscoreViewModel)
             }
         }
