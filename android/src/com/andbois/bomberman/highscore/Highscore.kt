@@ -1,7 +1,6 @@
 package com.andbois.bomberman.highscore
 
-class Highscore (
+data class Highscore (
         val author : String,
         val score : Int
-        ) {
-}
+)
