@@ -1,5 +1,6 @@
 package com.andbois.bomberman.engine.entities;
 
+import com.andbois.bomberman.engine.entities.components.Collider;
 import com.andbois.bomberman.engine.entities.components.Component;
 import com.andbois.bomberman.engine.entities.components.Renderer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,7 +17,12 @@ public class Entity {
         this.renderers = new ArrayList<>();
 
         for (Component component : components) {
-            addComponent(component);
+            internalAddComponent(component, false);
+        }
+
+        for (Component component : this.components) {
+            component.setEntity(this);
+            component.onInit();
         }
     }
 
@@ -30,12 +36,19 @@ public class Entity {
     }
 
     public void addComponent (Component component) {
+        internalAddComponent(component, true);
+    }
+
+    private void internalAddComponent(Component component, boolean init) {
         components.add(component);
         if (component instanceof Renderer) {
             renderers.add((Renderer)component);
         }
-        component.setEntity(this);
-        component.onInit();
+
+        if (init) {
+            component.setEntity(this);
+            component.onInit();
+        }
     }
 
     public void removeComponent (Component component) {
@@ -54,6 +67,12 @@ public class Entity {
     public void render (SpriteBatch batch) {
         for (Renderer renderer : renderers) {
             renderer.render(batch);
+        }
+    }
+
+    public void onCollision (Collider other) {
+        for (Component component : components) {
+            component.onCollision(other);
         }
     }
 }

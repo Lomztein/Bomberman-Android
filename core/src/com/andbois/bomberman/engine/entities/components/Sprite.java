@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Sprite extends Renderer {
 
     private Texture texture;
+    private float width;
+    private float height;
 
-    public Sprite (Texture texture) {
-        this.texture = texture;
+    public Sprite (Texture texture, float width, float height) {
+        this.texture = texture; this.width = width; this.height = height;
     }
 
     public Texture getTexture() {
@@ -21,7 +23,7 @@ public class Sprite extends Renderer {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, transform.getX(), transform.getY());
+        batch.draw(texture, transform.getX() - width / 2f, transform.getY() - height / 2f, width, height);
     }
 
     @Override
