@@ -1,14 +1,16 @@
 package com.andbois.bomberman.engine.entities;
 
-import com.andbois.bomberman.engine.entities.components.Collider;
+import com.andbois.bomberman.engine.entities.components.AABBCollider;
 import com.andbois.bomberman.engine.entities.components.Component;
 import com.andbois.bomberman.engine.entities.components.Renderer;
+import com.andbois.bomberman.engine.entities.components.Transform;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
 public class Entity {
 
+    private Transform transform;
     private ArrayList<Component> components;
     private ArrayList<Renderer> renderers;
 
@@ -45,6 +47,10 @@ public class Entity {
             renderers.add((Renderer)component);
         }
 
+        if (component instanceof Transform){
+            transform = (Transform)component;
+        }
+
         if (init) {
             component.setEntity(this);
             component.onInit();
@@ -70,9 +76,13 @@ public class Entity {
         }
     }
 
-    public void onCollision (Collider other) {
+    public void onCollision (AABBCollider other) {
         for (Component component : components) {
             component.onCollision(other);
         }
+    }
+
+    public Transform getTransform() {
+        return transform;
     }
 }

@@ -1,13 +1,13 @@
 package com.andbois.bomberman.engine.physics;
 
-import com.andbois.bomberman.engine.entities.components.Collider;
+import com.andbois.bomberman.engine.entities.components.AABBCollider;
 import com.andbois.bomberman.game.Game;
 
 import java.util.ArrayList;
 
 public class Physics {
 
-    private ArrayList<Collider> colliders;
+    private ArrayList<AABBCollider> colliders;
     private Game game;
 
     public Physics(Game game) {
@@ -15,11 +15,11 @@ public class Physics {
         colliders = new ArrayList<>();
     }
 
-    public void addCollider (Collider col) {
+    public void addCollider (AABBCollider col) {
         colliders.add(col);
     }
 
-    public void removeCollider (Collider col) {
+    public void removeCollider (AABBCollider col) {
         colliders.remove(col);
     }
 
@@ -30,23 +30,13 @@ public class Physics {
                 if (i == j)
                     continue;
 
-                Collider lhs = colliders.get(i);
-                Collider rhs = colliders.get(j);
+                AABBCollider lhs = colliders.get(i);
+                AABBCollider rhs = colliders.get(j);
 
-                if (lhs.collidesWith(rhs)) {
-                    game.addEvent(new CollisionEvent(lhs.getEntity(), lhs, rhs));
+                CollisionEvent event = lhs.intersectAABB(rhs);
+                if (event != null) {
+                    game.addEvent(event);
                 }
-            }
-        }
-    }
-
-    public void handleCollisions () {
-        int size = colliders.size();
-        for (int i = 0; i < size; i++) {
-            Collider col = colliders.get(i);
-            CollisionEvent event = game.getEvent(col.getEntity(), CollisionEvent.class);
-            if (event != null) {
-                event.getLhs().getEntity().onCollision(event.getRhs());
             }
         }
     }

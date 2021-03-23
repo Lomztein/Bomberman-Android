@@ -10,7 +10,7 @@ import kotlin.collections.ArrayList
 // Acts as DAO
 class HighscoreRepository {
 
-    var url = "http://192.168.0.11:8080/highscores"
+    var url = "http://192.168.0.136:8080/highscores"
     var client: OkHttpClient = OkHttpClient()
 
     val highscoreCache: ArrayList<Highscore> = ArrayList<Highscore>()

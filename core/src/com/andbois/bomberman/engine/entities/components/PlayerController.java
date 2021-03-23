@@ -6,12 +6,14 @@ import com.badlogic.gdx.Gdx;
 public class PlayerController extends Component {
 
     private Transform transform;
-    private Collider collider;
+    private AABBCollider collider;
 
     private Button btnLeft;
     private Button btnRight;
     private Button btnUp;
     private Button btnDown;
+
+    private float speed = 500;
 
     public PlayerController(Button btnLeft, Button btnRight, Button btnUp, Button btnDown) {
         this.btnLeft = btnLeft;
@@ -23,23 +25,23 @@ public class PlayerController extends Component {
     @Override
     public void onInit() {
         transform = getEntity().getComponent(Transform.class);
-        collider = getEntity().getComponent(Collider.class);
+        collider = getEntity().getComponent(AABBCollider.class);
     }
 
     @Override
     public void onTick(float deltaTime) {
         // --- Player movement --- //
         if(btnLeft.getIsClicked()) {
-            transform.setX(transform.getX() - 10);
+            transform.setX(transform.getX() - speed * deltaTime);
         }
         if(btnRight.getIsClicked()) {
-            transform.setX(transform.getX() + 10);
+            transform.setX(transform.getX() + speed * deltaTime);
         }
         if(btnUp.getIsClicked()) {
-            transform.setY(transform.getY() - 10);
+            transform.setY(transform.getY() - speed * deltaTime);
         }
         if(btnDown.getIsClicked()) {
-            transform.setY(transform.getY() + 10);
+            transform.setY(transform.getY() + speed * deltaTime);
         }
 
         if(transform.getX() < 0)

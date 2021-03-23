@@ -1,7 +1,7 @@
 package com.andbois.bomberman.game;
 
 import com.andbois.bomberman.engine.Event;
-import com.andbois.bomberman.engine.entities.components.Collider;
+import com.andbois.bomberman.engine.entities.components.AABBCollider;
 import com.andbois.bomberman.engine.entities.components.PlayerController;
 import com.andbois.bomberman.engine.entities.components.Sprite;
 import com.andbois.bomberman.engine.entities.components.Transform;
@@ -50,14 +50,14 @@ public class Game extends ApplicationAdapter {
 		btnBomb = new Button("button_bomb.png", Gdx.graphics.getWidth() - 300, 300);
 
 		// Set up game here.
-		Collider playerCol =  new Collider(200, 200);
+		AABBCollider playerCol =  new AABBCollider(200, 200);
 		player = new Entity(new Transform (200, 200, 0), new PlayerController(btnLeft, btnRight, btnDown, btnUp), playerCol, new Sprite(new Texture("texture_player.png"), 200, 200));
 
 		addEntity(player);
 		physics.addCollider(playerCol);
 
-		Entity wall = new Entity(new Transform(500, 500, 0), new Sprite(new Texture("texture_player.png"), 200, 200), new Collider(200, 200));
-		physics.addCollider(wall.getComponent(Collider.class));
+		Entity wall = new Entity(new Transform(500, 500, 0), new Sprite(new Texture("texture_player.png"), 200, 200), new AABBCollider(200, 200));
+		physics.addCollider(wall.getComponent(AABBCollider.class));
 		addEntity(wall);
 
 		addEntity(new Entity(btnLeft));
@@ -85,7 +85,7 @@ public class Game extends ApplicationAdapter {
 		if(btnBomb.getIsClicked()) {
 			if(System.currentTimeMillis() - lastBombSpawn > 1000) {
 				Bomb bomb = new Bomb("texture_bomb.png", "texture_explosion.png", (int)player.getComponent(Transform.class).getX(), (int)player.getComponent(Transform.class).getY(), 3000);
-				Collider bombCol =  new Collider(200, 200);
+				AABBCollider bombCol =  new AABBCollider(200, 200);
 				addEntity(
 						new Entity(
 								new Transform(
@@ -103,7 +103,7 @@ public class Game extends ApplicationAdapter {
 			if (bomb != null) {
 				if (bomb.getShouldDispose()) {
 					it.remove();
-					physics.removeCollider(bomb.getEntity().getComponent(Collider.class));
+					physics.removeCollider(bomb.getEntity().getComponent(AABBCollider.class));
 				}
 			}
 		}
@@ -113,19 +113,8 @@ public class Game extends ApplicationAdapter {
 		CollisionEvent playerCollision = getEvent(player, CollisionEvent.class);
 		if (playerCollision != null) {
 			System.out.println("Player collision!");
-			Collider playerCollider = player.getComponent(Collider.class);
-			if (btnLeft.getIsClicked()) {
-				playerCollider.moveToContactHorizontal(playerCollision.getRhs());
-			}
-			if (btnRight.getIsClicked()) {
-				playerCollider.moveToContactHorizontal(playerCollision.getRhs());
-			}
-			if (btnUp.getIsClicked()) {
-				playerCollider.moveToContactVertical(playerCollision.getRhs());
-			}
-			if (btnDown.getIsClicked()) {
-				playerCollider.moveToContactVertical(playerCollision.getRhs());
-			}
+			player.getTransform().setX(player.getTransform().getX() - playerCollision.getDeltaX());
+			player.getTransform().setY(player.getTransform().getY() - playerCollision.getDeltaY());
 		}
 	}
 

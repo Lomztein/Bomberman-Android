@@ -1,32 +1,63 @@
 package com.andbois.bomberman.engine.physics;
 
 import com.andbois.bomberman.engine.Event;
-import com.andbois.bomberman.engine.entities.components.Collider;
+import com.andbois.bomberman.engine.entities.components.AABBCollider;
 
 public class CollisionEvent extends Event {
 
-    private Collider rhs;
-    private Collider lhs;
+    private AABBCollider self;
+    private AABBCollider other;
 
-    public CollisionEvent(Object owner, Collider lhs, Collider rhs) {
+    private float deltaX;
+    private float deltaY;
+
+    private float normalX;
+    private float normalY;
+
+    private float posX;
+    private float posY;
+
+    public CollisionEvent(Object owner, AABBCollider self, AABBCollider other, float deltaX, float deltaY, float normalX, float normalY, float posX, float posY) {
         super(owner);
-        this.lhs = lhs;
-        this.rhs = rhs;
+        this.self = self;
+        this.other = other;
+        this.deltaX = deltaX;
+        this.deltaY = deltaY;
+        this.normalX = normalX;
+        this.normalY = normalY;
+        this.posX = posX;
+        this.posY = posY;
     }
 
-    public Collider getLhs() {
-        return lhs;
+    public AABBCollider getSelf() {
+        return self;
     }
 
-    public Collider getRhs() {
-        return rhs;
+    public AABBCollider getOther() {
+        return other;
     }
 
-    @Override
-    public String toString() {
-        return "CollisionEvent{" +
-                "rhs=" + rhs +
-                ", lhs=" + lhs +
-                '}';
+    public float getDeltaX() {
+        return deltaX;
+    }
+
+    public float getDeltaY() {
+        return deltaY;
+    }
+
+    public float getNormalX() {
+        return normalX;
+    }
+
+    public float getNormalY() {
+        return normalY;
+    }
+
+    public float getPosX() {
+        return posX;
+    }
+
+    public float getPosY() {
+        return posY;
     }
 }

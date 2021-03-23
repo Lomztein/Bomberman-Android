@@ -20,6 +20,6 @@ public abstract class Component {
 
     public abstract void onEnd ();
 
-    public void onCollision(Collider other) {
+    public void onCollision(AABBCollider other) {
     }
 }
