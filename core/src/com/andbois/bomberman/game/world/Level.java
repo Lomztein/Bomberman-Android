@@ -21,6 +21,8 @@ import java.util.Queue;
 public class Level {
 
     private ArrayList<Entity> entities;
+
+    private Queue<Entity> toAdd;
     private Queue<Entity> toRemove;
 
     private Entity player;
@@ -33,6 +35,7 @@ public class Level {
 
     public void setup () {
         entities = new ArrayList<>();
+        toAdd = new LinkedList<>();
         toRemove = new LinkedList<>();
 
         makePlayer();
@@ -62,6 +65,10 @@ public class Level {
     public void tick (float dTime) {
         for (Entity entity : entities) {
             entity.tick(Gdx.graphics.getDeltaTime());
+        }
+
+        while(toAdd.size() != 0) {
+            internalAddEntity(toAdd.poll());
         }
 
         while (toRemove.size() != 0) {
@@ -94,15 +101,19 @@ public class Level {
     }
 
     public void addEntity (Entity entity) {
+        toAdd.add(entity);
+    }
+
+    public void destroyEntity(Entity entity) {
+        toRemove.add(entity);
+    }
+
+    private void internalAddEntity (Entity entity) {
         entities.add(entity);
         AABBCollider collider = entity.getComponent(AABBCollider.class);
         if (collider != null) {
             game.getPhysics().addCollider(collider);
         }
-    }
-
-    public void destroyEntity(Entity entity) {
-        toRemove.add(entity);
     }
 
     private void removeEntity (Entity entity) {
