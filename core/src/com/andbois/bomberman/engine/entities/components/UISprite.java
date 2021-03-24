@@ -77,7 +77,6 @@ public class UISprite extends Renderer {
                 screenHeight / (Gdx.graphics.getWidth() / game.getCameraSizeHorizontal()),
                 screenWidth / (Gdx.graphics.getHeight() / game.getCameraSize()));
 
-        System.out.println(size);
         batch.draw(texture, pos.x, pos.y, size.x, size.y);
     }
     @Override

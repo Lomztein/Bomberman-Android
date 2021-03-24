@@ -9,7 +9,9 @@ import com.andbois.bomberman.engine.entities.components.Sprite;
 import com.andbois.bomberman.engine.entities.components.Transform;
 import com.andbois.bomberman.engine.physics.CollisionEvent;
 import com.andbois.bomberman.game.Game;
+import com.andbois.bomberman.game.entities.components.BombExplosion;
 import com.andbois.bomberman.game.entities.components.PlayerController;
+import com.andbois.bomberman.game.entities.components.Wall;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -42,7 +44,7 @@ public class Level {
 
         makePlayer();
 
-        Entity wall = makeEntity(new Transform(5, 5, 0), new Sprite(new Texture("texture_player.png"), 2, 2), new AABBCollider(1, 1));
+        Entity wall = makeEntity(new Transform(5, 5, 0), new Sprite(new Texture("texture_player.png"), 2, 2), new AABBCollider(1, 1), new Wall());
         addEntity(wall);
     }
 
@@ -82,9 +84,27 @@ public class Level {
     public void handleEvents () {
         CollisionEvent playerCollision = game.getEvent(player, CollisionEvent.class);
         if (playerCollision != null) {
-            System.out.println("Player collision!");
             player.getTransform().setX(player.getTransform().getX() - playerCollision.getDeltaX());
             player.getTransform().setY(player.getTransform().getY() - playerCollision.getDeltaY());
+        }
+
+        for (Entity entity : entities) {
+            if (entity.getComponent(BombExplosion.class) == null) {
+                continue;
+            }
+
+            ArrayList<CollisionEvent> explosionCollisions = game.getEvents(entity, CollisionEvent.class);
+            if (explosionCollisions.size() > 0) {
+                for(CollisionEvent event : explosionCollisions) {
+                    // Do not remove walls or explosions
+                    if(event.getOther().getEntity().getComponent(BombExplosion.class) != null ||
+                       event.getOther().getEntity().getComponent(Wall.class) != null) {
+                        continue;
+                    }
+
+                    removeEntity(event.getOther().getEntity()); // Entity has been hit by an explosion
+                }
+            }
         }
     }
 

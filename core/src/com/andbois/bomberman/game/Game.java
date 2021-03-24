@@ -106,6 +106,16 @@ public class Game extends ApplicationAdapter {
 		return (T)event;
 	}
 
+	public <T extends Event> ArrayList<T> getEvents(Object owner, Class<T> t) {
+		ArrayList<T> eventList = new ArrayList<>();
+		for (Event e : events) {
+			if (e.getOwner() == owner && t.isAssignableFrom(e.getClass())) {
+				eventList.add((T)e);
+			}
+		}
+		return eventList;
+	}
+
 	public Viewport getViewport() {
 		return viewport;
 	}
