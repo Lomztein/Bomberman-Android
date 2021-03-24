@@ -22,9 +22,8 @@ public class Game extends ApplicationAdapter {
 	private Physics physics;
 	private Level currentLevel;
 
-	private OrthographicCamera camera;
 	private float cameraSize = 15;
-
+	private OrthographicCamera camera;
 	private Viewport viewport;
 
 	private ArrayList<Event> events;
@@ -105,5 +104,32 @@ public class Game extends ApplicationAdapter {
 		}
 
 		return (T)event;
+	}
+
+	public Viewport getViewport() {
+		return viewport;
+	}
+
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+
+	public float getCameraSize() {
+		return cameraSize;
+	}
+
+	public void setCameraSize(float cameraSize) {
+		this.cameraSize = cameraSize;
+		viewport.setWorldSize(cameraSize * getAspectRatio(), cameraSize);
+	}
+
+	public float getCameraSizeHorizontal () {
+		return cameraSize * getAspectRatio();
+	}
+
+	public void setCameraPosition (float x, float y) {
+		camera.position.x = x;
+		camera.position.y = y;
+		camera.update();
 	}
 }

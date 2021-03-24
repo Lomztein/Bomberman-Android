@@ -1,7 +1,7 @@
 package com.andbois.bomberman.game.world;
 
-import com.andbois.bomberman.game.entities.components.Bomb;
-import com.andbois.bomberman.engine.entities.Button;
+import com.andbois.bomberman.engine.entities.components.UISprite;
+import com.andbois.bomberman.engine.entities.components.UIButton;
 import com.andbois.bomberman.engine.entities.Entity;
 import com.andbois.bomberman.engine.entities.components.AABBCollider;
 import com.andbois.bomberman.engine.entities.components.Component;
@@ -40,22 +40,22 @@ public class Level {
 
         makePlayer();
 
-        Entity wall = makeEntity(new Transform(5, 5, 0), new Sprite(new Texture("texture_player.png"), 1, 1), new AABBCollider(1, 1));
+        Entity wall = makeEntity(new Transform(5, 5, 0), new Sprite(new Texture("texture_player.png"), 2, 2), new AABBCollider(1, 1));
         addEntity(wall);
     }
 
     private void makePlayer () {
-        Button btnLeft = new Button("button_left.png", 100, 300);
-        Button btnRight = new Button("button_right.png", 600, 300);
-        Button btnDown = new Button("button_down.png", 350, 100);
-        Button btnUp = new Button("button_up.png", 350, 500);
-        Button btnBomb = new Button("button_bomb.png", Gdx.graphics.getWidth() - 300, 300);
+        UIButton btnLeft = new UIButton(100, 300, 100, 100);
+        UIButton btnRight = new UIButton(600, 300, 100, 100);
+        UIButton btnDown = new UIButton(350, 100, 100, 100);
+        UIButton btnUp = new UIButton(350, 500, 100, 100);
+        UIButton btnBomb = new UIButton(Gdx.graphics.getWidth() - 300, 300, 100, 100);
 
-        addEntity(makeEntity(btnLeft));
-        addEntity(makeEntity(btnRight));
-        addEntity(makeEntity(btnDown));
-        addEntity(makeEntity(btnUp));
-        addEntity(makeEntity(btnBomb));
+        addEntity(btnLeft, new UISprite(new Texture("button_left.png"), 100, Gdx.graphics.getHeight () - 300, 100, 100));
+        addEntity(btnRight, new UISprite(new Texture("button_right.png"), 600, Gdx.graphics.getHeight () - 300, 100, 100));
+        addEntity(btnDown, new UISprite(new Texture("button_down.png"), 350, Gdx.graphics.getHeight () - 100, 100, 100));
+        addEntity(btnUp, new UISprite(new Texture("button_up.png"), 350, Gdx.graphics.getHeight () - 500, 100, 100));
+        addEntity(btnBomb, new UISprite(new Texture("button_bomb.png"), Gdx.graphics.getWidth() - 300,Gdx.graphics.getHeight () -  300, 100, 100));
 
         AABBCollider playerCol =  new AABBCollider(1, 1);
         player = makeEntity(new Transform(0, 0, 0), new PlayerController(btnLeft, btnRight, btnDown, btnUp, btnBomb), playerCol, new Sprite(new Texture("texture_player.png"), 1, 1));
@@ -67,6 +67,7 @@ public class Level {
             entity.tick(Gdx.graphics.getDeltaTime());
         }
 
+        game.setCameraPosition(player.getTransform().getX(), player.getTransform().getY());
         while(toAdd.size() != 0) {
             internalAddEntity(toAdd.poll());
         }
@@ -105,6 +106,10 @@ public class Level {
 
     public void removeEntity(Entity entity) {
         toRemove.add(entity);
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     private void internalAddEntity (Entity entity) {

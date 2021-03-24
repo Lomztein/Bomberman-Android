@@ -1,4 +1,4 @@
-package com.andbois.bomberman.engine.entities;
+package com.andbois.bomberman.engine.entities.components;
 
 import com.andbois.bomberman.engine.Input;
 import com.andbois.bomberman.engine.Touch;
@@ -8,26 +8,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Button extends Renderer {
+public class UIButton extends Component {
 
-    private Texture texture;
     private Rectangle rectangle;
 
     private Boolean isClicked = false;
 
-    public Button(String textureName, int posX, int posY) {
-        texture = new Texture(textureName);
-        rectangle = new Rectangle(posX - (texture.getWidth() / 2), posY - (texture.getHeight() / 2), texture.getWidth(), texture.getHeight());
+    public UIButton(int posX, int posY, int width, int height) {
+        rectangle = new Rectangle(posX, posY, width, height);
     }
 
     @Override
     public void onInit() {
 
-    }
-
-    @Override
-    public void render(SpriteBatch batch) {
-        batch.draw(texture, rectangle.getX(), rectangle.getY());
     }
 
     @Override

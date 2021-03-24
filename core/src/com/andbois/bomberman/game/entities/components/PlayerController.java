@@ -1,12 +1,11 @@
 package com.andbois.bomberman.game.entities.components;
 
-import com.andbois.bomberman.engine.entities.Button;
+import com.andbois.bomberman.engine.entities.components.UIButton;
 import com.andbois.bomberman.engine.entities.Entity;
 import com.andbois.bomberman.engine.entities.components.AABBCollider;
 import com.andbois.bomberman.engine.entities.components.Component;
 import com.andbois.bomberman.engine.entities.components.Sprite;
 import com.andbois.bomberman.engine.entities.components.Transform;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 public class PlayerController extends Component {
@@ -15,15 +14,15 @@ public class PlayerController extends Component {
     private AABBCollider collider;
     private long lastBombSpawn = System.currentTimeMillis();
 
-    private Button btnLeft;
-    private Button btnRight;
-    private Button btnUp;
-    private Button btnDown;
-    private Button btnBomb;
+    private UIButton btnLeft;
+    private UIButton btnRight;
+    private UIButton btnUp;
+    private UIButton btnDown;
+    private UIButton btnBomb;
 
     private float speed = 5;
 
-    public PlayerController(Button btnLeft, Button btnRight, Button btnUp, Button btnDown, Button btnBomb) {
+    public PlayerController(UIButton btnLeft, UIButton btnRight, UIButton btnUp, UIButton btnDown, UIButton btnBomb) {
         this.btnLeft = btnLeft;
         this.btnRight = btnRight;
         this.btnUp = btnUp;
