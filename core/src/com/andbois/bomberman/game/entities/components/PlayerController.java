@@ -1,6 +1,7 @@
 package com.andbois.bomberman.game.entities.components;
 
 import com.andbois.bomberman.engine.entities.Button;
+import com.andbois.bomberman.engine.entities.Entity;
 import com.andbois.bomberman.engine.entities.components.AABBCollider;
 import com.andbois.bomberman.engine.entities.components.Component;
 import com.andbois.bomberman.engine.entities.components.Sprite;
@@ -55,16 +56,22 @@ public class PlayerController extends Component {
         // --- Bomb logic --- ///
         if(btnBomb.getIsClicked()) {
             if (System.currentTimeMillis() - lastBombSpawn > 1000) {
-                Bomb bomb = new Bomb("texture_bomb.png", "texture_explosion.png", (int) entity.getComponent(Transform.class).getX(), (int) entity.getComponent(Transform.class).getY(), 3000);
+                Bomb bomb = new Bomb("texture_explosion.png", 3000);
                 AABBCollider bombCol = new AABBCollider(1, 1);
                 entity.getLevel().addEntity(
                         entity.getLevel().makeEntity(
-                                new Transform(
-                                        entity.getComponent(Transform.class).getX(), entity.getComponent(Transform.class).getY(),
-                                        0), bomb, bombCol, new Sprite(new Texture("texture_bomb.png"), 1, 1)));
+                                new Transform(entity.getComponent(Transform.class).getX(), entity.getComponent(Transform.class).getY(), 0),
+                                bomb, bombCol, new Sprite(new Texture("texture_bomb.png"), 1, 1)));
 
                 lastBombSpawn = System.currentTimeMillis();
             }
+        }
+
+        for(Entity entity : entity.getLevel().getEntities()) {
+            if(entity.getComponent(Bomb.class) == null) {
+                continue;
+            }
+            Bomb bomb = entity.getComponent(Bomb.class);
         }
     }
 
