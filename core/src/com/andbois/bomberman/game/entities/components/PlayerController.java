@@ -1,6 +1,9 @@
-package com.andbois.bomberman.engine.entities.components;
+package com.andbois.bomberman.game.entities.components;
 
 import com.andbois.bomberman.engine.entities.Button;
+import com.andbois.bomberman.engine.entities.components.AABBCollider;
+import com.andbois.bomberman.engine.entities.components.Component;
+import com.andbois.bomberman.engine.entities.components.Transform;
 import com.badlogic.gdx.Gdx;
 
 public class PlayerController extends Component {

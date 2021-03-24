@@ -1,121 +1,51 @@
 package com.andbois.bomberman.game;
 
 import com.andbois.bomberman.engine.Event;
-import com.andbois.bomberman.engine.entities.components.AABBCollider;
-import com.andbois.bomberman.engine.entities.components.PlayerController;
-import com.andbois.bomberman.engine.entities.components.Sprite;
-import com.andbois.bomberman.engine.entities.components.Transform;
-import com.andbois.bomberman.engine.physics.CollisionEvent;
 import com.andbois.bomberman.engine.physics.Physics;
-import com.andbois.bomberman.engine.entities.Bomb;
-import com.andbois.bomberman.engine.entities.Button;
 import com.andbois.bomberman.engine.entities.Entity;
+import com.andbois.bomberman.game.world.Level;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 public class Game extends ApplicationAdapter {
 
 	private SpriteBatch batch;
-	private ArrayList<Entity> entities;
-
-	private Entity player;
-	private long lastBombSpawn = System.currentTimeMillis();
-
-	private Button btnLeft, btnRight, btnDown, btnUp, btnBomb;
 
 	private Physics physics;
+	private Level currentLevel;
+
 	private ArrayList<Event> events;
-	
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		entities = new ArrayList<>();
 		physics = new Physics(this);
 		events = new ArrayList<>();
 		setup();
 	}
 
 	public void setup () {
-
-		btnLeft = new Button("button_left.png", 100, 300);
-		btnRight = new Button("button_right.png", 600, 300);
-		btnDown = new Button("button_down.png", 350, 100);
-		btnUp = new Button("button_up.png", 350, 500);
-		btnBomb = new Button("button_bomb.png", Gdx.graphics.getWidth() - 300, 300);
-
-		// Set up game here.
-		AABBCollider playerCol =  new AABBCollider(200, 200);
-		player = new Entity(new Transform (200, 200, 0), new PlayerController(btnLeft, btnRight, btnDown, btnUp), playerCol, new Sprite(new Texture("texture_player.png"), 200, 200));
-
-		addEntity(player);
-		physics.addCollider(playerCol);
-
-		Entity wall = new Entity(new Transform(500, 500, 0), new Sprite(new Texture("texture_player.png"), 200, 200), new AABBCollider(200, 200));
-		physics.addCollider(wall.getComponent(AABBCollider.class));
-		addEntity(wall);
-
-		addEntity(new Entity(btnLeft));
-		addEntity(new Entity(btnRight));
-		addEntity(new Entity(btnDown));
-		addEntity(new Entity(btnUp));
-		addEntity(new Entity(btnBomb));
-	}
-
-	public void addEntity (Entity entity) {
-		entities.add(entity);
-	}
-
-	public void removeEntity (Entity entity) {
-		entities.remove(entity);
+		currentLevel = new Level(this);
 	}
 
 	public void tick () {
-		for (Entity entity : entities) {
-			entity.tick(Gdx.graphics.getDeltaTime());
-		}
-
-
-		// --- Bomb logic --- ///
-		if(btnBomb.getIsClicked()) {
-			if(System.currentTimeMillis() - lastBombSpawn > 1000) {
-				Bomb bomb = new Bomb("texture_bomb.png", "texture_explosion.png", (int)player.getComponent(Transform.class).getX(), (int)player.getComponent(Transform.class).getY(), 3000);
-				AABBCollider bombCol =  new AABBCollider(200, 200);
-				addEntity(
-						new Entity(
-								new Transform(
-								player.getComponent(Transform.class).getX(), player.getComponent(Transform.class).getY(),
-								0),bomb, bombCol));
-
-				physics.addCollider(bombCol);
-				lastBombSpawn = System.currentTimeMillis();
-			}
-		}
-
-		ListIterator<Entity> it = entities.listIterator();
-		while(it.hasNext()) {
-			Bomb bomb = it.next().getComponent(Bomb.class);
-			if (bomb != null) {
-				if (bomb.getShouldDispose()) {
-					it.remove();
-					physics.removeCollider(bomb.getEntity().getComponent(AABBCollider.class));
-				}
-			}
-		}
+		currentLevel.tick(Gdx.graphics.getDeltaTime());
 	}
 
-	private void postTick () {
-		CollisionEvent playerCollision = getEvent(player, CollisionEvent.class);
-		if (playerCollision != null) {
-			System.out.println("Player collision!");
-			player.getTransform().setX(player.getTransform().getX() - playerCollision.getDeltaX());
-			player.getTransform().setY(player.getTransform().getY() - playerCollision.getDeltaY());
-		}
+	private void handleEvents() {
+		currentLevel.handleEvents();
+	}
+
+	public Physics getPhysics() {
+		return physics;
+	}
+
+	public Level getCurrentLevel() {
+		return currentLevel;
 	}
 
 	@Override
@@ -123,16 +53,13 @@ public class Game extends ApplicationAdapter {
 
 		tick();
 		physics.checkCollisions();
-		postTick();
+		handleEvents();
 
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		for (Entity entity : entities) {
-			entity.render(batch);
-		}
-
+		currentLevel.render(batch);
 		batch.end();
 		events.clear(); // Clear all events at the start of a new frame.
 	}
