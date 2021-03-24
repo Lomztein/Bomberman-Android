@@ -10,19 +10,22 @@ public class PlayerController extends Component {
 
     private Transform transform;
     private AABBCollider collider;
+    private long lastBombSpawn = System.currentTimeMillis();
 
     private Button btnLeft;
     private Button btnRight;
     private Button btnUp;
     private Button btnDown;
+    private Button btnBomb;
 
     private float speed = 500;
 
-    public PlayerController(Button btnLeft, Button btnRight, Button btnUp, Button btnDown) {
+    public PlayerController(Button btnLeft, Button btnRight, Button btnUp, Button btnDown, Button btnBomb) {
         this.btnLeft = btnLeft;
         this.btnRight = btnRight;
         this.btnUp = btnUp;
         this.btnDown = btnDown;
+        this.btnBomb = btnBomb;
     }
 
     @Override
@@ -55,6 +58,21 @@ public class PlayerController extends Component {
             transform.setX(Gdx.graphics.getWidth() - collider.getWidth());
         if(transform.getY() > Gdx.graphics.getHeight() - collider.getHeight())
             transform.setY(Gdx.graphics.getHeight() - collider.getHeight());
+
+        // --- Bomb logic --- ///
+        if(btnBomb.getIsClicked()) {
+            if (System.currentTimeMillis() - lastBombSpawn > 1000) {
+                Bomb bomb = new Bomb("texture_bomb.png", "texture_explosion.png", (int) entity.getComponent(Transform.class).getX(), (int) entity.getComponent(Transform.class).getY(), 3000);
+                AABBCollider bombCol = new AABBCollider(200, 200);
+                entity.getLevel().addEntity(
+                        entity.getLevel().makeEntity(
+                                new Transform(
+                                        entity.getComponent(Transform.class).getX(), entity.getComponent(Transform.class).getY(),
+                                        0), bomb, bombCol));
+
+                lastBombSpawn = System.currentTimeMillis();
+            }
+        }
     }
 
     @Override

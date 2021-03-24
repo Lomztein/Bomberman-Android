@@ -30,6 +30,7 @@ public class Game extends ApplicationAdapter {
 
 	public void setup () {
 		currentLevel = new Level(this);
+		currentLevel.setup();
 	}
 
 	public void tick () {

@@ -4,6 +4,7 @@ import com.andbois.bomberman.engine.entities.components.AABBCollider;
 import com.andbois.bomberman.engine.entities.components.Component;
 import com.andbois.bomberman.engine.entities.components.Renderer;
 import com.andbois.bomberman.engine.entities.components.Transform;
+import com.andbois.bomberman.game.world.Level;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
@@ -14,9 +15,12 @@ public class Entity {
     private ArrayList<Component> components;
     private ArrayList<Renderer> renderers;
 
-    public Entity (Component... components) {
+    private Level level;
+
+    public Entity (Level level, Component... components) {
         this.components = new ArrayList<>();
         this.renderers = new ArrayList<>();
+        this.level = level;
 
         for (Component component : components) {
             internalAddComponent(component, false);
@@ -26,6 +30,10 @@ public class Entity {
             component.setEntity(this);
             component.onInit();
         }
+    }
+
+    public Level getLevel () {
+        return level;
     }
 
     public <T extends Component> T getComponent(Class<T> type) {
