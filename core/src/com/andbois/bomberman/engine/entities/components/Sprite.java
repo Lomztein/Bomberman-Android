@@ -23,7 +23,11 @@ public class Sprite extends Renderer {
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(texture, transform.getX() - width / 2f, transform.getY() - height / 2f, width, height);
+        batch.draw(texture, entity.getTransform().getX() - width / 2f, entity.getTransform().getY() - height / 2f, width, height);
+    }
+
+    @Override
+    public void onInit() {
     }
 
     @Override

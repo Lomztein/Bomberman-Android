@@ -40,7 +40,7 @@ public class Level {
 
         makePlayer();
 
-        Entity wall = makeEntity(new Transform(500, 500, 0), new Sprite(new Texture("texture_player.png"), 200, 200), new AABBCollider(200, 200));
+        Entity wall = makeEntity(new Transform(5, 5, 0), new Sprite(new Texture("texture_player.png"), 1, 1), new AABBCollider(1, 1));
         addEntity(wall);
     }
 
@@ -57,8 +57,8 @@ public class Level {
         addEntity(makeEntity(btnUp));
         addEntity(makeEntity(btnBomb));
 
-        AABBCollider playerCol =  new AABBCollider(200, 200);
-        player = makeEntity(new Transform(200, 200, 0), new PlayerController(btnLeft, btnRight, btnDown, btnUp, btnBomb), playerCol, new Sprite(new Texture("texture_player.png"), 200, 200));
+        AABBCollider playerCol =  new AABBCollider(1, 1);
+        player = makeEntity(new Transform(0, 0, 0), new PlayerController(btnLeft, btnRight, btnDown, btnUp, btnBomb), playerCol, new Sprite(new Texture("texture_player.png"), 1, 1));
         addEntity(player);
     }
 
@@ -72,7 +72,7 @@ public class Level {
         }
 
         while (toRemove.size() != 0) {
-            removeEntity(toRemove.poll());
+            internalRemoveEntity(toRemove.poll());
         }
     }
 
@@ -82,7 +82,6 @@ public class Level {
             System.out.println("Player collision!");
             player.getTransform().setX(player.getTransform().getX() - playerCollision.getDeltaX());
             player.getTransform().setY(player.getTransform().getY() - playerCollision.getDeltaY());
-            destroyEntity(playerCollision.getOther().getEntity());
         }
     }
 
@@ -104,7 +103,7 @@ public class Level {
         toAdd.add(entity);
     }
 
-    public void destroyEntity(Entity entity) {
+    public void removeEntity(Entity entity) {
         toRemove.add(entity);
     }
 
@@ -116,7 +115,7 @@ public class Level {
         }
     }
 
-    private void removeEntity (Entity entity) {
+    private void internalRemoveEntity (Entity entity) {
         entities.remove(entity);
         AABBCollider collider = entity.getComponent(AABBCollider.class);
         if (collider != null) {

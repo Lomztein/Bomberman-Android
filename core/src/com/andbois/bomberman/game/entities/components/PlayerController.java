@@ -3,8 +3,10 @@ package com.andbois.bomberman.game.entities.components;
 import com.andbois.bomberman.engine.entities.Button;
 import com.andbois.bomberman.engine.entities.components.AABBCollider;
 import com.andbois.bomberman.engine.entities.components.Component;
+import com.andbois.bomberman.engine.entities.components.Sprite;
 import com.andbois.bomberman.engine.entities.components.Transform;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 
 public class PlayerController extends Component {
 
@@ -18,7 +20,7 @@ public class PlayerController extends Component {
     private Button btnDown;
     private Button btnBomb;
 
-    private float speed = 500;
+    private float speed = 5;
 
     public PlayerController(Button btnLeft, Button btnRight, Button btnUp, Button btnDown, Button btnBomb) {
         this.btnLeft = btnLeft;
@@ -50,25 +52,16 @@ public class PlayerController extends Component {
             transform.setY(transform.getY() + speed * deltaTime);
         }
 
-        if(transform.getX() < 0)
-            transform.setX(0);
-        if(transform.getY() < 0)
-            transform.setY(0);
-        if(transform.getX() > Gdx.graphics.getWidth() - collider.getWidth())
-            transform.setX(Gdx.graphics.getWidth() - collider.getWidth());
-        if(transform.getY() > Gdx.graphics.getHeight() - collider.getHeight())
-            transform.setY(Gdx.graphics.getHeight() - collider.getHeight());
-
         // --- Bomb logic --- ///
         if(btnBomb.getIsClicked()) {
             if (System.currentTimeMillis() - lastBombSpawn > 1000) {
                 Bomb bomb = new Bomb("texture_bomb.png", "texture_explosion.png", (int) entity.getComponent(Transform.class).getX(), (int) entity.getComponent(Transform.class).getY(), 3000);
-                AABBCollider bombCol = new AABBCollider(200, 200);
+                AABBCollider bombCol = new AABBCollider(1, 1);
                 entity.getLevel().addEntity(
                         entity.getLevel().makeEntity(
                                 new Transform(
                                         entity.getComponent(Transform.class).getX(), entity.getComponent(Transform.class).getY(),
-                                        0), bomb, bombCol));
+                                        0), bomb, bombCol, new Sprite(new Texture("texture_bomb.png"), 1, 1)));
 
                 lastBombSpawn = System.currentTimeMillis();
             }

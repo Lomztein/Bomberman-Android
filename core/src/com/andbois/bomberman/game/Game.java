@@ -7,7 +7,11 @@ import com.andbois.bomberman.game.world.Level;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
@@ -18,6 +22,11 @@ public class Game extends ApplicationAdapter {
 	private Physics physics;
 	private Level currentLevel;
 
+	private OrthographicCamera camera;
+	private float cameraSize = 15;
+
+	private Viewport viewport;
+
 	private ArrayList<Event> events;
 
 	@Override
@@ -25,6 +34,8 @@ public class Game extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		physics = new Physics(this);
 		events = new ArrayList<>();
+		camera = new OrthographicCamera(cameraSize * getAspectRatio(), cameraSize);
+		viewport = new ScreenViewport(camera);
 		setup();
 	}
 
@@ -49,6 +60,10 @@ public class Game extends ApplicationAdapter {
 		return currentLevel;
 	}
 
+	public float getAspectRatio () {
+		return (float)Gdx.graphics.getWidth() / Gdx.graphics.getHeight();
+	}
+
 	@Override
 	public void render () {
 
@@ -58,6 +73,8 @@ public class Game extends ApplicationAdapter {
 
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		batch.setProjectionMatrix(camera.combined);
 
 		batch.begin();
 		currentLevel.render(batch);
