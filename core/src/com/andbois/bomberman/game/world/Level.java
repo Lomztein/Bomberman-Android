@@ -42,13 +42,13 @@ public class Level {
         toRemove = new LinkedList<>();
         grid = new Grid(1);
 
-        makePlayer();
+        LevelLoader loader = new LevelLoader();
+        player = loader.loadOnto(new Texture("lvl_test.png"), this);
 
-        Entity wall = makeEntity(new Transform(5, 5, 0), new Sprite(new Texture("texture_player.png"), 2, 2), new AABBCollider(1, 1), new Wall());
-        addEntity(wall);
+        attachPlayer(player);
     }
 
-    private void makePlayer () {
+    private void attachPlayer (Entity player) {
         UIButton btnLeft = new UIButton(100, 300, 100, 100);
         UIButton btnRight = new UIButton(600, 300, 100, 100);
         UIButton btnDown = new UIButton(350, 100, 100, 100);
@@ -61,9 +61,7 @@ public class Level {
         addEntity(btnUp, new UISprite(new Texture("button_up.png"), 350, Gdx.graphics.getHeight () - 500, 100, 100));
         addEntity(btnBomb, new UISprite(new Texture("button_bomb.png"), Gdx.graphics.getWidth() - 300,Gdx.graphics.getHeight () -  300, 100, 100));
 
-        AABBCollider playerCol =  new AABBCollider(1, 1);
-        player = makeEntity(new Transform(0, 0, 0), new PlayerController(btnLeft, btnRight, btnDown, btnUp, btnBomb), playerCol, new Sprite(new Texture("texture_player.png"), 1, 1));
-        addEntity(player);
+        player.addComponent(new PlayerController(btnLeft, btnRight, btnDown, btnUp, btnBomb));
     }
 
     public void tick (float dTime) {
