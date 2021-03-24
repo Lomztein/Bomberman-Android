@@ -1,6 +1,6 @@
 package com.andbois.bomberman.game.world;
 
-import com.andbois.bomberman.engine.entities.Bomb;
+import com.andbois.bomberman.game.entities.components.Bomb;
 import com.andbois.bomberman.engine.entities.Button;
 import com.andbois.bomberman.engine.entities.Entity;
 import com.andbois.bomberman.engine.entities.components.AABBCollider;
@@ -29,9 +29,12 @@ public class Level {
 
     public Level(Game game) {
         this.game = game;
+        setup();
     }
 
     public void setup () {
+        entities = new ArrayList<>();
+
         btnLeft = new Button("button_left.png", 100, 300);
         btnRight = new Button("button_right.png", 600, 300);
         btnDown = new Button("button_down.png", 350, 100);
@@ -60,7 +63,6 @@ public class Level {
         for (Entity entity : entities) {
             entity.tick(Gdx.graphics.getDeltaTime());
         }
-
 
         // --- Bomb logic --- ///
         if(btnBomb.getIsClicked()) {

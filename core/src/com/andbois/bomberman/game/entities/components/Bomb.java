@@ -1,4 +1,4 @@
-package com.andbois.bomberman.engine.entities;
+package com.andbois.bomberman.game.entities.components;
 
 import com.andbois.bomberman.engine.entities.components.Renderer;
 import com.badlogic.gdx.graphics.Texture;
