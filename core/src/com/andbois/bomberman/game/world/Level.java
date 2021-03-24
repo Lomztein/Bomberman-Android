@@ -28,6 +28,7 @@ public class Level {
     private Entity player;
 
     private Game game;
+    private Grid grid;
 
     public Level(Game game) {
         this.game = game;
@@ -37,6 +38,7 @@ public class Level {
         entities = new ArrayList<>();
         toAdd = new LinkedList<>();
         toRemove = new LinkedList<>();
+        grid = new Grid(1);
 
         makePlayer();
 
@@ -128,4 +130,7 @@ public class Level {
         }
     }
 
+    public Grid getGrid() {
+        return grid;
+    }
 }

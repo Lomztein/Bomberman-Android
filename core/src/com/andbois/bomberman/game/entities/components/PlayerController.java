@@ -65,13 +65,6 @@ public class PlayerController extends Component {
                 lastBombSpawn = System.currentTimeMillis();
             }
         }
-
-        for(Entity entity : entity.getLevel().getEntities()) {
-            if(entity.getComponent(Bomb.class) == null) {
-                continue;
-            }
-            Bomb bomb = entity.getComponent(Bomb.class);
-        }
     }
 
     @Override
