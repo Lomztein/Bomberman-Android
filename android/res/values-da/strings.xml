@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BILLIG BOMBERMAN KLON</string>
+    <string name="app_subtitle">Lavet af et par nørder til et universitetsprojekt</string>
+    <string name="menu_start_game">Start spil</string>
+    <string name="menu_exit_game">Forlad spil :(</string>
+    <string name="nav_main_menu">Hovedmenuen</string>
+    <string name="nav_highscores">Highscores</string>
+    <string name="nav_credits">Kredit</string>
+    <string name="app_credits">
+        Spil programmeret af Sander B. Knudsen og Marcus L. Jensen til SDU-kurset \'Android Programmering\'.
+        \n\n
+        Bruger LibGDX spil-biblioteket.
+        \n\n
+        De følgende grafik-pakker er blevet brugt til sprites:
+        \n
+        \nUI: Free Lunar Battle Pack af MattWalkden
+        \nShikashis Fantasy Icons Pack af Cheekyinkling
+        \nDungeon Tileset II af 0x73.
+        \n\n
+        Alle grafik-pakker er blevet hentet fra Itch.io</string>
+
+</resources>
